@@ -1,0 +1,38 @@
+<Queries>
+
+  <Query name="CreateTask">
+    INSERT INTO Tasks (Title, Description, Status, Priority, DueDate, UserId, CreatedDate)
+    VALUES (@Title, @Description, @Status, @Priority, @DueDate, @UserId, GETDATE())
+  </Query>
+
+  <Query name="GetTasksByUser">
+    SELECT * FROM Tasks WHERE UserId = @UserId
+  </Query>
+
+  <Query name="GetTaskById">
+    SELECT * FROM Tasks WHERE Id = @Id
+  </Query>
+
+  <Query name="UpdateTask">
+    UPDATE Tasks
+    SET Title = @Title,
+        Description = @Description,
+        Status = @Status,
+        Priority = @Priority,
+        DueDate = @DueDate,
+        UpdatedDate = GETDATE()
+    WHERE Id = @Id
+  </Query>
+
+  <Query name="DeleteTask">
+    DELETE FROM Tasks WHERE Id = @Id
+  </Query>
+
+  <Query name="UpdateTaskStatus">
+    UPDATE Tasks
+    SET Status = @Status,
+        UpdatedDate = GETDATE()
+    WHERE Id = @Id
+  </Query>
+
+</Queries>
