@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManagement.Domain\TaskManagement.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Database\" />
+    <Folder Include="DependencyInjection\" />
+    <Folder Include="Security\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="QueryManagement\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
+  </ItemGroup>
+
+</Project>

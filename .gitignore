@@ -1,0 +1,103 @@
+# =========================
+# Visual Studio
+# =========================
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Build outputs
+# =========================
+bin/
+obj/
+out/
+
+# =========================
+# .NET
+# =========================
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+# Build results folders (sometimes created manually)
+Debug/
+Release/
+
+# =========================
+# User secrets (IMPORTANT)
+# =========================
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+
+# =========================
+# ASP.NET Core
+# =========================
+wwwroot/
+publish/
+
+# =========================
+# Entity Framework (just in case tools generate)
+# =========================
+Migrations/
+
+# =========================
+# Node.js (Vue frontend - later)
+# =========================
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# =========================
+# MAUI / Mobile builds
+# =========================
+*.app
+*.ipa
+*.apk
+*.aab
+*.binlog
+*.maui/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDEs
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Logs & temp files
+# =========================
+*.log
+*.tmp
+*.temp
+
+# =========================
+# Database (optional safety)
+# =========================
+*.mdf
+*.ldf
+
+# =========================
+# Publish folders
+# =========================
+publish/
+PublishOutput/
+
+# =========================
+# Environment variables (future Vue / backend support)
+# =========================
+.env
+.env.*
