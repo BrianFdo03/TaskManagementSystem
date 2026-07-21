@@ -30,7 +30,7 @@ CREATE TABLE Users (
     Name NVARCHAR(100) NOT NULL,
     Email NVARCHAR(255) NOT NULL UNIQUE,
     PasswordHash NVARCHAR(MAX) NOT NULL,
-    Role NVARCHAR(20) NOT NULL CHECK (Role IN ('Admin', 'Employee')),
+    Role INT NOT NULL,
     CreatedDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
@@ -60,9 +60,21 @@ GO
 -- =========================
 INSERT INTO Users (Name, Email, PasswordHash, Role)
 VALUES 
-('Admin User', 'admin@task.com', '$2a$11$TEMP_HASH_REPLACE', 'Admin'),
-('John Doe', 'john@task.com', '$2a$11$TEMP_HASH_REPLACE', 'Employee'),
-('Jane Smith', 'jane@task.com', '$2a$11$TEMP_HASH_REPLACE', 'Employee');
+(
+    'Admin User', 
+    'admin@task.com', 
+    '$2a$11$TEMP_HASH_REPLACE', 
+    1 -- admin
+),
+
+(
+    'John Doe', 
+    'john@task.com', 
+    '$2a$11$TEMP_HASH_REPLACE', 
+    2 -- emplyee
+),
+
+('Jane Smith', 'jane@task.com', '$2a$11$TEMP_HASH_REPLACE', 2);
 GO
 
 -- =========================

@@ -14,5 +14,5 @@ public class User
 
     public UserRole Role { get; set; }
 
-    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;    
 }

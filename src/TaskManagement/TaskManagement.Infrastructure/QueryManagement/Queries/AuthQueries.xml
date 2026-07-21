@@ -1,0 +1,23 @@
+﻿<Queries>
+
+	<!-- Used during login -->
+	<Query name="GetUserByEmail">
+		SELECT
+		Id,
+		Name,
+		Email,
+		PasswordHash,
+		Role,
+		CreatedDate
+		FROM Users
+		WHERE Email = @Email
+	</Query>
+
+	<!-- Optional: used for registration validation -->
+	<Query name="CheckEmailExists">
+		SELECT COUNT(1)
+		FROM Users
+		WHERE Email = @Email
+	</Query>
+
+</Queries>
