@@ -1,11 +1,5 @@
 # TaskManagementSystem
 
-Step 6 — Add Setup Instructions for README
-
-This is IMPORTANT for your submission.
-
-Add this section:
-
 Database Setup
 ### 1. Create Database
 

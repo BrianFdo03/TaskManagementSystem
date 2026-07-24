@@ -30,7 +30,7 @@ public class UserRepository : IUserRepository
         var users = await _databaseExecutor.QueryAsync(
             sql,
             null,
-            MapUser);
+            UserMapper.Map);
 
         return users;
     }
@@ -52,10 +52,6 @@ public class UserRepository : IUserRepository
             UserMapper.Map);
     }
 
-    //public Task<User?> GetByEmailAsync(string email)
-    //{
-    //    throw new NotImplementedException();
-    //}
 
     public async Task<int> CreateAsync(User user)
     {
@@ -73,9 +69,7 @@ public class UserRepository : IUserRepository
 
         return await _databaseExecutor.ExecuteScalarAsync<int>(
             sql,
-            parameters)
-            ?? throw new InvalidOperationException(
-                "Failed to create user.");
+            parameters);
     }
 
     public async Task<bool> DeleteAsync(int id)
@@ -96,34 +90,7 @@ public class UserRepository : IUserRepository
         return rows > 0;
     }
 
-    //public Task<bool> EmailExistsAsync(string email)
-    //{
-    //    throw new NotImplementedException();
-    //}
-
-    //private static User MapUser(IDataReader reader)
-    //{
-
-    //    return new User
-    //    {
-    //        Id = reader.GetRequiredInt32("Id"),
-
-    //        Name = reader.GetRequiredString("Name"),
-
-    //        Email = reader.GetRequiredString("Email"),
-
-    //        PasswordHash =
-    //        reader.GetRequiredString("PasswordHash"),
-
-    //        Role =
-    //        reader.GetRequiredEnum<UserRole>("Role"),
-
-    //        CreatedDate =
-    //        reader.GetRequiredDateTime("CreatedDate")
-    //    };
-    //}
-
-
+   
     private static SqlParameter Parameter(string name, object? value)
     {
         return new SqlParameter(name, value ?? DBNull.Value);
