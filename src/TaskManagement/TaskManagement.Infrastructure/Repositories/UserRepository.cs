@@ -72,6 +72,27 @@ public class UserRepository : IUserRepository
             parameters);
     }
 
+    public async Task<bool> UpdateAsync(User user)
+    {
+        var sql = _queryService.Get(
+            UserQueryNames.File,
+            UserQueryNames.Update);
+
+        var parameters = new[]
+        {
+        Parameter("@Id", user.Id),
+        Parameter("@Name", user.Name),
+        Parameter("@Email", user.Email),
+        Parameter("@Role", (int)user.Role)
+    };
+
+        var rows = await _databaseExecutor.ExecuteAsync(
+            sql,
+            parameters);
+
+        return rows > 0;
+    }
+
     public async Task<bool> DeleteAsync(int id)
     {
         var sql = _queryService.Get(

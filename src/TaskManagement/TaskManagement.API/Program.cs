@@ -1,3 +1,6 @@
+using TaskManagement.Application.DependencyInjection;
+using TaskManagement.Infrastructure.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// Register Application Layer
+builder.Services.AddApplication();
+
+// Register Infrastructure Layer
+builder.Services.AddInfrastructure();
+
 
 var app = builder.Build();
 

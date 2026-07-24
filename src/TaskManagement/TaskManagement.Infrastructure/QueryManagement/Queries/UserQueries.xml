@@ -42,6 +42,15 @@
 			GETDATE()
 		)
 	</Query>
+
+	<Query name="UpdateUser">
+		UPDATE Users
+		SET
+		Name = @Name,
+		Email = @Email,
+		Role = @Role
+		WHERE Id = @Id
+	</Query>
 	
 	<Query name="DeleteUser">
 		DELETE

@@ -10,15 +10,17 @@
     <ProjectReference Include="..\TaskManagement.Domain\TaskManagement.Domain.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
   <ItemGroup>
     <Folder Include="DTOs\Auth\" />
     <Folder Include="DTOs\Statistics\" />
-    <Folder Include="DTOs\Task\" />
-    <Folder Include="DTOs\User\" />
-    <Folder Include="Mapping\" />
+    <Folder Include="DTOs\Tasks\" />
+    <Folder Include="DTOs\Users\Mapping\" />
     <Folder Include="Common\" />
     <Folder Include="Validators\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
