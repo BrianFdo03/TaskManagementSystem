@@ -1,0 +1,20 @@
+<Queries>
+
+  <Query name="CreateUser">
+    INSERT INTO Users (Name, Email, PasswordHash, Role, CreatedDate)
+    VALUES (@Name, @Email, @PasswordHash, @Role, GETDATE())
+  </Query>
+
+  <Query name="GetAllUsers">
+    SELECT Id, Name, Email, Role, CreatedDate FROM Users
+  </Query>
+
+  <Query name="GetUserById">
+    SELECT Id, Name, Email, Role, CreatedDate FROM Users WHERE Id = @Id
+  </Query>
+
+  <Query name="DeleteUser">
+    DELETE FROM Users WHERE Id = @Id
+  </Query>
+
+</Queries>
