@@ -1,20 +1,21 @@
 ﻿using TaskManagement.Application.Contracts.Persistence;
+using TaskManagement.Application.Contracts.Security;
 using TaskManagement.Application.Contracts.Services;
 using TaskManagement.Application.DTOs.Users.Requests;
 using TaskManagement.Application.DTOs.Users.Responses;
 using TaskManagement.Application.Mapping;
-using TaskManagement.Domain.Entities;
-using TaskManagement.Domain.Enums;
 
 namespace TaskManagement.Application.Services;
 
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public UserService(IUserRepository repository)
+    public UserService(IUserRepository repository, IPasswordHasher passwordHasher)
     {
         _repository = repository;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<IEnumerable<UserResponse>> GetAllAsync()
@@ -37,6 +38,8 @@ public class UserService : IUserService
     public async Task<int> CreateAsync(CreateUserRequest request)
     {
         var user = UserMapping.ToEntity(request);
+
+        user.PasswordHash = _passwordHasher.Hash(request.Password);
 
         return await _repository.CreateAsync(user);
 
