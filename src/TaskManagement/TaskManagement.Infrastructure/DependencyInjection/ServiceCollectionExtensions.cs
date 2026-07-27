@@ -5,6 +5,7 @@ using TaskManagement.Infrastructure.QueryManagement;
 using TaskManagement.Infrastructure.Repositories;
 using TaskManagement.Application.Contracts.Services;
 using TaskManagement.Application.Contracts.Persistence;
+using TaskManagement.Infrastructure.Security;
 
 namespace TaskManagement.Infrastructure.DependencyInjection;
 

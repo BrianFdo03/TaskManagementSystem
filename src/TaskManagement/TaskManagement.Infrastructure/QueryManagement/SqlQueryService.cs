@@ -15,7 +15,19 @@ public class SqlQueryService : ISqlQueryService
 
     private void LoadQueries()
     {
-        var basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QueryManagement/Queries");
+        var basePath = Path.GetFullPath(
+            Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "..",
+                "..",
+                "..",
+                "..",
+                "TaskManagement.Infrastructure",
+                "QueryManagement",
+                "Queries"
+            )
+        );
+
 
         if (!Directory.Exists(basePath))
             throw new DirectoryNotFoundException($"Query folder not found: {basePath}");

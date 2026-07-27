@@ -36,16 +36,7 @@ public class UserService : IUserService
 
     public async Task<int> CreateAsync(CreateUserRequest request)
     {
-        var user = new User
-        {
-            Name = request.Name,
-            Email = request.Email,
-
-            // Temporary
-            PasswordHash = request.Password,
-
-            Role = (UserRole)request.Role
-        };
+        var user = UserMapping.ToEntity(request);
 
         return await _repository.CreateAsync(user);
 
@@ -55,16 +46,14 @@ public class UserService : IUserService
     int id,
     UpdateUserRequest request)
     {
-        var existing = await _repository.GetByIdAsync(id);
+        var user = await _repository.GetByIdAsync(id);
 
-        if (existing == null)
+        if (user == null)
             return false;
 
-        existing.Name = request.Name;
-        existing.Email = request.Email;
-        existing.Role = (UserRole)request.Role;
+        UserMapping.ApplyUpdate(user, request);
 
-        return await _repository.UpdateAsync(existing);
+        return await _repository.UpdateAsync(user);
     }
 
     public async Task<bool> DeleteAsync(int id)

@@ -4,10 +4,11 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagement.Domain.Entities;
+using TaskManagement.Application.Contracts.Services; // Added to mitigate the IJwtTokenService referencing error after namespace change.
 
-namespace TaskManagement.Application.Contracts.Services;
+namespace TaskManagement.Infrastructure.Security; // Be mondfull that the namespace changed from Application.Contracts.Services
 
-public class JwtTokenService : IJwtTokenService
+public class JwtTokenService : IJwtTokenService 
 {
     private readonly IConfiguration _configuration;
 
