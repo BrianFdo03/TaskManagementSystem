@@ -3,9 +3,9 @@ using TaskManagement.Infrastructure.Database;
 using TaskManagement.Infrastructure.Execution;
 using TaskManagement.Infrastructure.QueryManagement;
 using TaskManagement.Infrastructure.Repositories;
-using TaskManagement.Application.Contracts.Services;
 using TaskManagement.Application.Contracts.Persistence;
 using TaskManagement.Infrastructure.Security;
+using TaskManagement.Application.Contracts.Security;
 
 namespace TaskManagement.Infrastructure.DependencyInjection;
 
@@ -29,6 +29,7 @@ public static class ServiceCollectionExtensions
         // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAuthRepository, AuthRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
 
         return services;
     }

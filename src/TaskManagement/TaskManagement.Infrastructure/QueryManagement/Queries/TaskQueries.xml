@@ -9,6 +9,7 @@
 		Priority,
 		UserId,
 		CreatedDate,
+		UpdatedDate,
 		DueDate
 		FROM Tasks
 		WHERE UserId = @UserId
@@ -23,6 +24,7 @@
 		Priority,
 		UserId,
 		CreatedDate,
+		UpdatedDate,
 		DueDate
 		FROM Tasks
 		WHERE Id = @Id

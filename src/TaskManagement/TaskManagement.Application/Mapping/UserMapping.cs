@@ -26,10 +26,6 @@ public static class UserMapping
         {
             Name = request.Name,
             Email = request.Email,
-
-            // Temporary until authentication is implemented
-            PasswordHash = request.Password,
-
             Role = (UserRole)request.Role
         };
     }

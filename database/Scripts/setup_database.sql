@@ -63,18 +63,23 @@ VALUES
 (
     'Admin User', 
     'admin@task.com', 
-    '$2a$11$TEMP_HASH_REPLACE', 
+    '$2a$11$l2cYk3oSO4QOSFcWEelVfO1vAOoIht77RYOKVx3/QCyDAUkKyZ7d.'
     1 -- admin
 ),
 
 (
     'John Doe', 
     'john@task.com', 
-    '$2a$11$TEMP_HASH_REPLACE', 
+    '$2a$11$tyvezqM59uCn4hn5m6b9SuSY/.T7uLtLRUXwYwVA8guHPMtJG.Th2',
     2 -- emplyee
 ),
 
-('Jane Smith', 'jane@task.com', '$2a$11$TEMP_HASH_REPLACE', 2);
+(
+    'Jane Smith', 
+    'jane@task.com', 
+    '$2a$11$KAyi7Vw.N6G2FJUhzslBOO6vUuDzAxq7qSGh7Rr9C08JX.mqheqyy', 
+    2 -- emplyee
+);
 GO
 
 -- =========================
