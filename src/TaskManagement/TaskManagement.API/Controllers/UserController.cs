@@ -17,7 +17,7 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-     //GET: api/user
+    //GET: api/user
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -26,11 +26,6 @@ public class UserController : ControllerBase
         return Ok(users);
     }
 
-    //[HttpGet]
-    //public IActionResult GetUsers()
-    //{
-    //    return Ok("Users endpoint is working");
-    //}
 
     // GET: api/users/5
     [HttpGet("{id:int}")]

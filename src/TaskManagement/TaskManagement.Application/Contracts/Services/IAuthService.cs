@@ -3,7 +3,7 @@ using TaskManagement.Application.DTOs.Auth.Responses;
 
 namespace TaskManagement.Application.Contracts.Services
 {
-    internal interface IAuthService
+    public interface IAuthService
     {
         Task<LoginResponse?> LoginAsync(LoginRequest request);
     }
