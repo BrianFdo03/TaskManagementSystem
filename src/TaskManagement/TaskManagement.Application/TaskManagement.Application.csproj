@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Statistics\" />
-    <Folder Include="DTOs\Tasks\" />
     <Folder Include="Common\" />
     <Folder Include="Validators\" />
   </ItemGroup>
