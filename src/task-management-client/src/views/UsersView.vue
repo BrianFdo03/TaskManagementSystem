@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
+import { useUserSelectionStore } from '@/stores/userSelection'
+
 import userService from '@/services/userService'
 
 import type { User } from '@/types/user'
@@ -9,7 +11,7 @@ import UserList from '@/components/users/UserList.vue'
 
 const users = ref<User[]>([])
 
-const selectedUser = ref<User | null>(null)
+const userSelectionStore = useUserSelectionStore()
 
 const loading = ref(false)
 
@@ -32,7 +34,7 @@ const loadUsers = async () => {
 }
 
 const handleUserSelect = (user: User) => {
-  selectedUser.value = user
+  userSelectionStore.selectUser(user)
 }
 
 onMounted(() => {
@@ -53,24 +55,24 @@ onMounted(() => {
     <UserList
       v-else
       :users="users"
-      :selected-user-id="selectedUser?.id"
+      :selected-user-id="userSelectionStore.selectedUser?.id"
       @select="handleUserSelect"
     />
 
-    <div v-if="selectedUser" class="mt-6 p-4 bg-white rounded shadow">
+    <div v-if="userSelectionStore.selectedUser" class="mt-6 p-4 bg-white rounded shadow">
       <h2 class="font-semibold">Selected User</h2>
 
       <p>
-        {{ selectedUser.name }}
+        {{ userSelectionStore.selectedUser.name }}
       </p>
 
       <p>
-        {{ selectedUser.email }}
+        {{ userSelectionStore.selectedUser.email }}
       </p>
 
       <p>
         Role:
-        {{ selectedUser.role }}
+        {{ userSelectionStore.selectedUser.role }}
       </p>
     </div>
   </div>

@@ -11,4 +11,6 @@ public class CreateTaskRequest
     public int Priority { get; set; }
 
     public DateTime DueDate { get; set; }
+
+    public int? UserId { get; set; } // For admin to make tasks for other users. (other users id)
 }
