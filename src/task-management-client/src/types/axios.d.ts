@@ -1,7 +1,7 @@
-import "axios";
+import 'axios'
 
-declare module "axios" {
-    export interface AxiosRequestConfig {
-        requiresAuth?: boolean;
-    }
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    skipAuthRedirect?: boolean
+  }
 }
