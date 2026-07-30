@@ -13,15 +13,35 @@
 </template> -->
 
 <script setup lang="ts">
-import api from "@/services/api";
+import { ref } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
-const testConnection = async () => {
+const authStore = useAuthStore();
+
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
+const isLoading = ref(false);
+
+const handleLogin = async () => {
+    errorMessage.value = "";
+    isLoading.value = true;
+
     try {
-        const response = await api.get("/auth/test");
+        await authStore.login({
+            email: email.value,
+            password: password.value,
+        });
 
-        console.log("Backend response:", response.data);
+        console.log("Login successful");
+        console.log("Token:", authStore.token);
     } catch (error) {
-        console.error("Backend connection failed:", error);
+        console.error("Login failed:", error);
+
+        errorMessage.value =
+            "Invalid email or password.";
+    } finally {
+        isLoading.value = false;
     }
 };
 </script>
@@ -30,8 +50,39 @@ const testConnection = async () => {
     <div>
         <h1>Login</h1>
 
-        <button @click="testConnection">
-            Test Backend Connection
-        </button>
+        <form @submit.prevent="handleLogin">
+            <div>
+                <label for="email">Email</label>
+
+                <input
+                    id="email"
+                    v-model="email"
+                    type="email"
+                    autocomplete="email"
+                />
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+
+                <input
+                    id="password"
+                    v-model="password"
+                    type="password"
+                    autocomplete="current-password"
+                />
+            </div>
+
+            <p v-if="errorMessage">
+                {{ errorMessage }}
+            </p>
+
+            <button
+                type="submit"
+                :disabled="isLoading"
+            >
+                {{ isLoading ? "Logging in..." : "Login" }}
+            </button>
+        </form>
     </div>
 </template>
