@@ -3,6 +3,11 @@ import type { User } from '@/types/user'
 
 defineProps<{
   users: User[]
+  selectedUserId?: number
+}>()
+
+const emit = defineEmits<{
+  select: [user: User]
 }>()
 </script>
 
@@ -22,7 +27,15 @@ defineProps<{
       </thead>
 
       <tbody>
-        <tr v-for="user in users" :key="user.id" class="border-b hover:bg-gray-50">
+        <tr
+          v-for="user in users"
+          :key="user.id"
+          @click="emit('select', user)"
+          class="border-b hover:bg-gray-50 cursor-pointer"
+          :class="{
+            'bg-gray-100': selectedUserId === user.id,
+          }"
+        >
           <td class="p-4">
             {{ user.name }}
           </td>

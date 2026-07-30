@@ -9,6 +9,8 @@ import UserList from '@/components/users/UserList.vue'
 
 const users = ref<User[]>([])
 
+const selectedUser = ref<User | null>(null)
+
 const loading = ref(false)
 
 const error = ref('')
@@ -29,6 +31,10 @@ const loadUsers = async () => {
   }
 }
 
+const handleUserSelect = (user: User) => {
+  selectedUser.value = user
+}
+
 onMounted(() => {
   loadUsers()
 })
@@ -44,6 +50,28 @@ onMounted(() => {
       {{ error }}
     </div>
 
-    <UserList v-else :users="users" />
+    <UserList
+      v-else
+      :users="users"
+      :selected-user-id="selectedUser?.id"
+      @select="handleUserSelect"
+    />
+
+    <div v-if="selectedUser" class="mt-6 p-4 bg-white rounded shadow">
+      <h2 class="font-semibold">Selected User</h2>
+
+      <p>
+        {{ selectedUser.name }}
+      </p>
+
+      <p>
+        {{ selectedUser.email }}
+      </p>
+
+      <p>
+        Role:
+        {{ selectedUser.role }}
+      </p>
+    </div>
   </div>
 </template>
