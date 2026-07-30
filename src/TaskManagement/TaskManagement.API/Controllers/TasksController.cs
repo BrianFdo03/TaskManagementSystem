@@ -1,8 +1,10 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Security.Claims;
 using TaskManagement.Application.Contracts.Services;
 using TaskManagement.Application.DTOs.Tasks.Requests;
+using TaskManagement.Domain.Enums;
 
 namespace TaskManagement.Api.Controllers;
 
@@ -51,9 +53,14 @@ public class TasksController : ControllerBase
         if (userId == null)
             return Unauthorized();
 
+        var userRole = GetCurrentUserRole();
+
+        var isAdmin = userRole == UserRole.Admin;
+
         var task = await _taskService.GetByIdAsync(
             id,
-            userId.Value);
+            userId.Value,
+            isAdmin);
 
         if (task == null)
             return NotFound();
@@ -71,9 +78,15 @@ public class TasksController : ControllerBase
         if (userId == null)
             return Unauthorized();
 
+        var userRole = GetCurrentUserRole();
+
+        var isAdmin =
+            userRole == UserRole.Admin;
+
         var task = await _taskService.CreateAsync(
             request,
-            userId.Value);
+            userId.Value,
+            isAdmin);
 
         return CreatedAtAction(
             nameof(GetById),
@@ -92,10 +105,15 @@ public class TasksController : ControllerBase
         if (userId == null)
             return Unauthorized();
 
+        var userRole = GetCurrentUserRole();
+
+        var isAdmin = userRole == UserRole.Admin;
+
         var updated = await _taskService.UpdateAsync(
             id,
             request,
-            userId.Value);
+            userId.Value, 
+            isAdmin);
 
         if (!updated)
             return NotFound();
@@ -114,10 +132,15 @@ public class TasksController : ControllerBase
         if (userId == null)
             return Unauthorized();
 
+        var userRole = GetCurrentUserRole();
+
+        var isAdmin = userRole == UserRole.Admin;
+
         var updated = await _taskService.UpdateStatusAsync(
             id,
             status,
-            userId.Value);
+            userId.Value,
+            isAdmin);
 
         if (!updated)
             return NotFound();
@@ -134,9 +157,14 @@ public class TasksController : ControllerBase
         if (userId == null)
             return Unauthorized();
 
+        var userRole = GetCurrentUserRole();
+
+        var isAdmin = userRole == UserRole.Admin;
+
         var deleted = await _taskService.DeleteAsync(
             id,
-            userId.Value);
+            userId.Value,
+            isAdmin);
 
         if (!deleted)
             return NotFound();
@@ -160,5 +188,24 @@ public class TasksController : ControllerBase
         }
 
         return userId;
+    }
+
+    private UserRole? GetCurrentUserRole()
+    {
+        var claim = User.FindFirst(
+            ClaimTypes.Role);
+
+        if (claim == null)
+            return null;
+
+        if (Enum.TryParse<UserRole>(
+        claim.Value,
+        true,
+        out var userRole))
+        {
+            return userRole;
+        }
+
+        return null;
     }
 }

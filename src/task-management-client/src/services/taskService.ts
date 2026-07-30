@@ -35,14 +35,9 @@ const deleteTask = async (id: number) => {
 
 export default {
   getMyTasks,
-
   getTasksByUser,
-
   createTask,
-
   updateTask,
-
   updateStatus,
-
   deleteTask,
 }

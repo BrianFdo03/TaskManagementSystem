@@ -12,23 +12,27 @@ public interface ITaskService
 
     Task<TaskResponse?> GetByIdAsync(
         int id,
-        int userId);
+        int userId,
+        bool isAdmin);
 
     Task<TaskResponse> CreateAsync(
-        CreateTaskRequest request,
-        int userId);
+    CreateTaskRequest request,
+    int currentUserId,
+    bool isAdmin);
 
     Task<bool> UpdateAsync(
         int id,
         UpdateTaskRequest request,
-        int userId);
+        int userId,
+    bool isAdmin);
 
     Task<bool> UpdateStatusAsync(
         int id,
         int status,
-        int userId);
+        int userId,
+    bool isAdmin);
 
     Task<bool> DeleteAsync(
         int id,
-        int userId);
+        int userId, bool isAdmin);
 }

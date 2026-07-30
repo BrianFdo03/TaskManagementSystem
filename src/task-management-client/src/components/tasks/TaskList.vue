@@ -4,6 +4,29 @@ import type { Task } from '@/types/task'
 defineProps<{
   tasks: Task[]
 }>()
+
+const emit = defineEmits<{
+  updateStatus: [taskId: number, status: number]
+  edit: [task: Task]
+  delete: [task: Task]
+}>()
+
+const getStatusValue = (status: string): number => {
+  switch (status.toLowerCase()) {
+    case 'pending':
+      return 0
+
+    case 'inprogress':
+    case 'in progress':
+      return 1
+
+    case 'completed':
+      return 2
+
+    default:
+      return 0
+  }
+}
 </script>
 
 <template>
@@ -23,13 +46,24 @@ defineProps<{
         </p>
 
         <div class="mt-3 space-y-1">
-          <p>
-            Status:
+          <div>
+            <label :for="`status-${task.id}`" class="text-sm font-medium mr-2"> Status: </label>
 
-            <span class="font-medium">
-              {{ task.status }}
-            </span>
-          </p>
+            <select
+              :id="`status-${task.id}`"
+              :value="getStatusValue(task.status)"
+              @change="
+                emit('updateStatus', task.id, Number(($event.target as HTMLSelectElement).value))
+              "
+              class="border rounded px-2 py-1"
+            >
+              <option :value="0">Pending</option>
+
+              <option :value="1">In Progress</option>
+
+              <option :value="2">Completed</option>
+            </select>
+          </div>
 
           <p>
             Priority:
@@ -46,6 +80,14 @@ defineProps<{
               {{ new Date(task.dueDate).toLocaleDateString() }}
             </span>
           </p>
+        </div>
+        <div class="mt-4">
+          <button type="button" @click="emit('edit', task)" class="px-3 py-1 rounded border">
+            Edit
+          </button>
+          <button type="button" @click="emit('delete', task)" class="px-3 py-1 rounded border">
+            Delete
+          </button>
         </div>
       </div>
     </div>

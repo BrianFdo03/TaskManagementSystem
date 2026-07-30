@@ -34,26 +34,35 @@ public class TaskService : ITaskService
 
     public async Task<TaskResponse?> GetByIdAsync(
         int id,
-        int userId)
+        int userId,
+        bool isAdmin)
     {
         var task = await _taskRepository.GetByIdAsync(id);
 
         if (task == null)
             return null;
 
-        if (task.UserId != userId)
+        if (!isAdmin && task.UserId != userId)
             return null;
 
         return TaskMapping.ToResponse(task);
     }
 
     public async Task<TaskResponse> CreateAsync(
-        CreateTaskRequest request,
-        int userId)
+    CreateTaskRequest request,
+    int currentUserId,
+    bool isAdmin)
     {
+        var targetUserId = currentUserId;
+
+        if (isAdmin && request.UserId.HasValue)
+        {
+            targetUserId = request.UserId.Value;
+        }
+
         var task = TaskMapping.ToEntity(
             request,
-            userId);
+            targetUserId);
 
         var id = await _taskRepository.CreateAsync(task);
 
@@ -65,14 +74,15 @@ public class TaskService : ITaskService
     public async Task<bool> UpdateAsync(
         int id,
         UpdateTaskRequest request,
-        int userId)
+        int userId,
+    bool isAdmin)
     {
         var task = await _taskRepository.GetByIdAsync(id);
 
         if (task == null)
             return false;
 
-        if (task.UserId != userId)
+        if (!isAdmin && task.UserId != userId)
             return false;
 
         TaskMapping.ApplyUpdate(
@@ -85,14 +95,15 @@ public class TaskService : ITaskService
     public async Task<bool> UpdateStatusAsync(
         int id,
         int status,
-        int userId)
+        int userId,
+    bool isAdmin)
     {
         var task = await _taskRepository.GetByIdAsync(id);
 
         if (task == null)
             return false;
 
-        if (task.UserId != userId)
+        if (!isAdmin && task.UserId != userId)
             return false;
 
         return await _taskRepository.UpdateStatusAsync(
@@ -102,14 +113,15 @@ public class TaskService : ITaskService
 
     public async Task<bool> DeleteAsync(
         int id,
-        int userId)
+        int userId,
+    bool isAdmin)
     {
         var task = await _taskRepository.GetByIdAsync(id);
 
         if (task == null)
             return false;
 
-        if (task.UserId != userId)
+        if (!isAdmin && task.UserId != userId)
             return false;
 
         return await _taskRepository.DeleteAsync(id);
