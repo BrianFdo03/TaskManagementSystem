@@ -14,8 +14,10 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
+const router = useRouter();
 const authStore = useAuthStore();
 
 const email = ref("");
@@ -34,7 +36,10 @@ const handleLogin = async () => {
         });
 
         console.log("Login successful");
-        console.log("Token:", authStore.token);
+        await router.push({
+            name: "Dashboard",
+        });
+
     } catch (error) {
         console.error("Login failed:", error);
 

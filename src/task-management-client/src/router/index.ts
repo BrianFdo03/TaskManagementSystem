@@ -1,6 +1,9 @@
+import AppLayout from '@/layouts/AppLayout.vue';
 import { useAuthStore } from '@/stores/auth';
-import DashboardView from '@/views/DashboardView.vue'
+import DashboardView from '@/views/DashboardView.vue';
 import LoginView from '@/views/LoginView.vue'
+import TasksView from '@/views/TasksView.vue';
+import UsersView from '@/views/UsersView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -21,22 +24,50 @@ const router = createRouter({
     
     },
     {
-      path: "/dashboard",
-      name: "Dashboard",
-      component: DashboardView,
+      path: "/app",
+      component: AppLayout,
       meta: {
-          requiresAuth: true,
+        requiresAuth: true,
       },
-  },
+
+      children: [
+        {
+          path: "",
+          redirect: "/app/dashboard",
+        },
+
+        {
+          path: "dashboard",
+          name: "Dashboard",
+          component: DashboardView,
+        },
+
+        {
+          path: "tasks",
+          name: "Tasks",
+          component: TasksView,
+        },
+
+        {
+          path: "users",
+          name: "Users",
+          component: UsersView,
+        },
+      ],
+    },
   ],
 })
 
 router.beforeEach((to) => {
     const authStore = useAuthStore();
 
+    const requiresAuth = to.matched.some(
+        (record) => record.meta.requiresAuth
+    );
+
+
     if (
-        to.meta.requiresAuth &&
-        !authStore.isAuthenticated
+        requiresAuth  && !authStore.isAuthenticated
     ) {
         return {
             name: "Login",

@@ -32,13 +32,4 @@ public class AuthController : ControllerBase
 
         return Ok(response);
     }
-
-    [HttpGet("test")]
-    public IActionResult Test()
-    {
-        return Ok(new
-        {
-            message = "Backend is connected successfully!"
-        });
-    }
 }
