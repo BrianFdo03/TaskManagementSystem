@@ -126,7 +126,7 @@ watch(
 <template>
   <div>
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold">Tasks</h1>
+      <h1 class="text-2xl font-semibold text-gray-900">Tasks</h1>
 
       <button
         v-if="!isAdmin() || userSelectionStore.selectedUser"
