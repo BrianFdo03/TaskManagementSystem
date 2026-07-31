@@ -5,6 +5,7 @@ using System.Security.Claims;
 using TaskManagement.Application.Contracts.Services;
 using TaskManagement.Application.DTOs.Tasks.Requests;
 using TaskManagement.Domain.Enums;
+using TaskManagement.Application.DTOs.Common;
 
 namespace TaskManagement.Api.Controllers;
 
@@ -24,14 +25,38 @@ public class TasksController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetMyTasks() // Tasks of own emp
     {
-        var userId = GetCurrentUserId();
+        try
+        {
+            var userId = GetCurrentUserId();
 
-        if (userId == null)
-            return Unauthorized();
+            if (userId == null)
+            {
+                return Unauthorized(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Unable to identify the authenticated user."
+                });
+            }
 
-        var tasks = await _taskService.GetMyTasksAsync(userId.Value);
+            var tasks = await _taskService.GetMyTasksAsync(userId.Value);
 
-        return Ok(tasks);
+            return Ok(new ApiResponse<object>
+            {
+                Success = true,
+                Message = "Tasks retrieved successfully.",
+                Data = tasks
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new ApiResponse
+            {
+                Success = false,
+                Message = "Unable to retrieve your tasks."
+            });
+        }
     }
 
     // GET: api/tasks/user/{userId}
@@ -39,33 +64,81 @@ public class TasksController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetTasksByUser(int userId) // Tasks of user by admin
     {
-        var tasks = await _taskService.GetTasksByUserAsync(userId);
+        try
+        {
+            var tasks = await _taskService.GetTasksByUserAsync(userId);
 
-        return Ok(tasks);
+            return Ok(new ApiResponse<object>
+            {
+                Success = true,
+                Message = "User tasks retrieved successfully.",
+                Data = tasks
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new ApiResponse
+            {
+                Success = false,
+                Message = "Unable to retrieve tasks for the selected user."
+            });
+        }
     }
 
     // GET: api/tasks/{id}
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var userId = GetCurrentUserId();
+        try
+        {
+            var userId = GetCurrentUserId();
 
-        if (userId == null)
-            return Unauthorized();
+            if (userId == null)
+            {
+                return Unauthorized(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Unable to identify the authenticated user."
+                });
+            }
 
-        var userRole = GetCurrentUserRole();
+            var userRole = GetCurrentUserRole();
 
-        var isAdmin = userRole == UserRole.Admin;
+            var isAdmin = userRole == UserRole.Admin;
 
-        var task = await _taskService.GetByIdAsync(
-            id,
-            userId.Value,
-            isAdmin);
+            var task = await _taskService.GetByIdAsync(
+                id,
+                userId.Value,
+                isAdmin);
 
-        if (task == null)
-            return NotFound();
+            if (task == null)
+            {
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = $"Task not found."
+                });
+            }
 
-        return Ok(task);
+            return Ok(new ApiResponse<object>
+            {
+                Success = true,
+                Message = "Task retrieved successfully.",
+                Data = task
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new ApiResponse
+            {
+                Success = false,
+                Message = "Unable to retrieve the task."
+            });
+        }
     }
 
     // POST: api/tasks
@@ -73,25 +146,66 @@ public class TasksController : ControllerBase
     public async Task<IActionResult> Create(
         [FromBody] CreateTaskRequest request)
     {
-        var userId = GetCurrentUserId();
+        try
+        {
+            if (string.IsNullOrWhiteSpace(request.Title))
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Task title is required."
+                });
+            }
 
-        if (userId == null)
-            return Unauthorized();
+            if (request.DueDate == default)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Task due date is required."
+                });
+            }
 
-        var userRole = GetCurrentUserRole();
+            var userId = GetCurrentUserId();
 
-        var isAdmin =
-            userRole == UserRole.Admin;
+            if (userId == null)
+            {
+                return Unauthorized(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Unable to identify the authenticated user."
+                });
+            }
 
-        var task = await _taskService.CreateAsync(
-            request,
-            userId.Value,
-            isAdmin);
+            var userRole = GetCurrentUserRole();
 
-        return CreatedAtAction(
-            nameof(GetById),
-            new { id = task.Id },
-            task);
+            var isAdmin = userRole == UserRole.Admin;
+
+            var task = await _taskService.CreateAsync(
+                request,
+                userId.Value,
+                isAdmin);
+
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = task.Id },
+                new ApiResponse<object>
+                {
+                    Success = true,
+                    Message = "Task created successfully.",
+                    Data = task
+                });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new ApiResponse
+            {
+                Success = false,
+                Message = "Unable to create the task."
+            });
+        }
     }
 
     // PUT: api/tasks/{id}
@@ -100,25 +214,72 @@ public class TasksController : ControllerBase
         int id,
         [FromBody] UpdateTaskRequest request)
     {
-        var userId = GetCurrentUserId();
+        try
+        {
+            if (string.IsNullOrWhiteSpace(request.Title))
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Task title is required."
+                });
+            }
 
-        if (userId == null)
-            return Unauthorized();
+            if (request.DueDate == default)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Task due date is required."
+                });
+            }
 
-        var userRole = GetCurrentUserRole();
+            var userId = GetCurrentUserId();
 
-        var isAdmin = userRole == UserRole.Admin;
+            if (userId == null)
+            {
+                return Unauthorized(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Unable to identify the authenticated user."
+                });
+            }
 
-        var updated = await _taskService.UpdateAsync(
-            id,
-            request,
-            userId.Value, 
-            isAdmin);
+            var userRole = GetCurrentUserRole();
 
-        if (!updated)
-            return NotFound();
+            var isAdmin = userRole == UserRole.Admin;
 
-        return NoContent();
+            var updated = await _taskService.UpdateAsync(
+                id,
+                request,
+                userId.Value,
+                isAdmin);
+
+            if (!updated)
+            {
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = $"Task not found or cannot be modified."
+                });
+            }
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Task updated successfully."
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new ApiResponse
+            {
+                Success = false,
+                Message = "Unable to update the task."
+            });
+        }
     }
 
     // PATCH: api/tasks/{id}/status
@@ -127,49 +288,116 @@ public class TasksController : ControllerBase
         int id,
         [FromBody] int status)
     {
-        var userId = GetCurrentUserId();
+        try
+        {
+            if (!Enum.IsDefined(typeof(TaskStatus), status))
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Invalid task status."
+                });
+            }
 
-        if (userId == null)
-            return Unauthorized();
+            var userId = GetCurrentUserId();
 
-        var userRole = GetCurrentUserRole();
+            if (userId == null)
+            {
+                return Unauthorized(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Unable to identify the authenticated user."
+                });
+            }
 
-        var isAdmin = userRole == UserRole.Admin;
+            var userRole = GetCurrentUserRole();
 
-        var updated = await _taskService.UpdateStatusAsync(
-            id,
-            status,
-            userId.Value,
-            isAdmin);
+            var isAdmin = userRole == UserRole.Admin;
 
-        if (!updated)
-            return NotFound();
+            var updated = await _taskService.UpdateStatusAsync(
+                id,
+                status,
+                userId.Value,
+                isAdmin);
 
-        return NoContent();
+            if (!updated)
+            {
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = $"Task not found or cannot be modified."
+                });
+            }
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Task status updated successfully."
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new ApiResponse
+            {
+                Success = false,
+                Message = "Unable to update the task status."
+            });
+        }
     }
 
     // DELETE: api/tasks/{id}
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var userId = GetCurrentUserId();
+        try
+        {
+            var userId = GetCurrentUserId();
 
-        if (userId == null)
-            return Unauthorized();
+            if (userId == null)
+            {
+                return Unauthorized(new ApiResponse
+                {
+                    Success = false,
+                    Message = "Unable to identify the authenticated user."
+                });
+            }
 
-        var userRole = GetCurrentUserRole();
+            var userRole = GetCurrentUserRole();
 
-        var isAdmin = userRole == UserRole.Admin;
+            var isAdmin = userRole == UserRole.Admin;
 
-        var deleted = await _taskService.DeleteAsync(
-            id,
-            userId.Value,
-            isAdmin);
+            var deleted = await _taskService.DeleteAsync(
+                id,
+                userId.Value,
+                isAdmin);
 
-        if (!deleted)
-            return NotFound();
+            if (!deleted)
+            {
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = $"Task not found or cannot be deleted."
+                });
+            }
 
-        return NoContent();
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Task deleted successfully."
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return StatusCode(500, new ApiResponse
+            {
+                Success = false,
+                Message = "Unable to delete the task."
+            });
+        }
     }
 
     private int? GetCurrentUserId()
