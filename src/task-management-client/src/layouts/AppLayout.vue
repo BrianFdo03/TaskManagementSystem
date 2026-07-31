@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { useRouter, RouterLink, RouterView } from 'vue-router'
 import { LayoutDashboard, Users, ListTodo, LogOut, Menu, X, UserCircle } from 'lucide-vue-next'
 
+import { openNativeAboutPage } from '@/utils/nativeNavigation'
+
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
@@ -64,6 +66,14 @@ const logout = async () => {
           <ListTodo :size="20" />
           Tasks
         </RouterLink>
+        <button
+          type="button"
+          @click="openNativeAboutPage"
+          class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-blue-50 hover:text-blue-600"
+        >
+          <Info :size="20" />
+          About App
+        </button>
       </nav>
 
       <!-- User / Logout -->
@@ -174,6 +184,14 @@ const logout = async () => {
               <ListTodo :size="20" />
               Tasks
             </RouterLink>
+            <button
+              type="button"
+              @click="openNativeAboutPage"
+              class="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+            >
+              <Info :size="20" />
+              About App
+            </button>
           </nav>
 
           <div class="border-t border-gray-200 p-4">
