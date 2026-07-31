@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="TaskManagement.Mobile.MainPage"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid>
+
+        <WebView
+            x:Name="WebView"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" />
+
+        <Grid
+            x:Name="LoadingView"
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill">
+
+            <VerticalStackLayout
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Spacing="16">
+
+                <ActivityIndicator
+                    IsRunning="True"
+                    WidthRequest="40"
+                    HeightRequest="40" />
+
+                <Label
+                    Text="Loading..."
+                    FontSize="16"
+                    TextColor="#475569"
+                    HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+        <Grid
+            x:Name="ErrorView"
+            BackgroundColor="White"
+            IsVisible="False"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill">
+
+            <VerticalStackLayout
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Padding="30"
+                Spacing="16">
+
+                <Label
+                    Text="Unable to load the application"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    TextColor="#0F172A"
+                    HorizontalTextAlignment="Center" />
+
+                <Label
+                    x:Name="ErrorMessage"
+                    Text="Please check your network connection."
+                    FontSize="14"
+                    TextColor="#64748B"
+                    HorizontalTextAlignment="Center" />
+
+                <Button
+                    Text="Retry"
+                    Clicked="OnRetryClicked"
+                    BackgroundColor="#2563EB"
+                    TextColor="White"
+                    CornerRadius="8"
+                    Padding="20,10" />
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

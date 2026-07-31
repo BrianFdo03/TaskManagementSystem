@@ -4,6 +4,8 @@ public static class TaskQueryNames
 {
     public const string File = "TaskQueries";
 
+    public const string GetAll = "GetAll";
+
     public const string GetByUser = "GetTasksByUser";
     public const string GetById = "GetTaskById";
 

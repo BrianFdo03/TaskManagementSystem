@@ -1,5 +1,19 @@
 ﻿<Queries>
 
+	<Query name="GetAll">
+		SELECT
+		Id,
+		Title,
+		Description,
+		Status,
+		Priority,
+		UserId,
+		CreatedDate,
+		DueDate,
+		UpdatedDate
+		FROM Tasks;
+	</Query>
+
 	<Query name="GetTasksByUser">
 		SELECT
 		Id,

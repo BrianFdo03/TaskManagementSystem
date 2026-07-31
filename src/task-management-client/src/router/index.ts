@@ -11,10 +11,6 @@ const router = createRouter({
 
   routes: [
     {
-      path: '/',
-      redirect: '/login',
-    },
-    {
       path: '/login',
       name: 'Login',
       component: LoginView,
@@ -23,7 +19,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/app',
+      path: '/',
       component: AppLayout,
       meta: {
         requiresAuth: true,
@@ -32,7 +28,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          redirect: '/app/dashboard',
+          redirect: '/dashboard',
         },
 
         {

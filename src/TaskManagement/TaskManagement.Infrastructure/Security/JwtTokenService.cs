@@ -43,6 +43,10 @@ public class JwtTokenService : IJwtTokenService
                 user.Id.ToString()),
 
             new(
+                ClaimTypes.Name,
+                user.Name),
+
+            new(
                 ClaimTypes.Email,
                 user.Email),
 

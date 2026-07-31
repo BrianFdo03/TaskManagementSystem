@@ -21,6 +21,18 @@ public class TaskRepository : ITaskRepository
         _queryService = queryService;
     }
 
+    public async Task<IEnumerable<TaskItem>> GetAllAsync()
+    {
+        var sql = _queryService.Get(
+            TaskQueryNames.File,
+            TaskQueryNames.GetAll);
+
+        return await _databaseExecutor.QueryAsync(
+            sql,
+            null,
+            TaskMapper.Map);
+    }
+
     public async Task<IEnumerable<TaskItem>> GetByUserAsync(
         int userId)
     {
