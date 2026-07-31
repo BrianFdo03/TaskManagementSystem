@@ -4,6 +4,16 @@ A full-stack Task Management System developed as an internship assignment. The a
 
 The system implements JWT authentication, role-based authorization, user-specific task management, administrative task management, dashboard statistics, and a responsive web interface designed to work well within the mobile application.
 
+<p align="center">
+  <img src="src/screenshots/LoginPage.jpg" alt="Login Page" width="380" />
+  <img src="src/screenshots/TasksPage.jpg" alt="Tasks Page" width="380" />
+</p>
+
+<p align="center">
+  <img src="src/screenshots/UsersPage.jpg" alt="Users Page" width="380" />
+  <img src="src/screenshots/DashboardPage.jpg" alt="Dashboard Page" width="380" />
+</p>
+
 ---
 
 ## Project Overview
