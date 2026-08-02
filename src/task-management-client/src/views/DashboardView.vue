@@ -1,4 +1,3 @@
-```vue
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import {
@@ -325,4 +324,3 @@ onMounted(() => {
     </template>
   </div>
 </template>
-```

@@ -290,7 +290,7 @@ public class TasksController : ControllerBase
     {
         try
         {
-            if (!Enum.IsDefined(typeof(TaskStatus), status))
+            if (!Enum.IsDefined(typeof(Domain.Enums.TaskStatus), status))
             {
                 return BadRequest(new ApiResponse
                 {
